@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Reservations</string>
+    <string name="rest_url">https://s3-eu-west-1.amazonaws.com/quandoo-assessment/</string>
 </resources>

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.quandoo.reservations.R;
 
-public class TableChoosingActivity extends AppCompatActivity {
+public class TableChoosingActivity extends AppCompatActivity implements TableChoosingView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,48 +8,51 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.iwsbrazil.interview.R;
-import com.iwsbrazil.interview.activities.BandDetailActivity;
-import com.iwsbrazil.interview.model.Band;
+import com.quandoo.reservations.R;
+import com.quandoo.reservations.data.entities.Customer;
+import com.quandoo.reservations.ui.tablechoosing.TableChoosingActivity;
 
 import java.util.List;
 
-/**
- * Created by felipe on 8/19/16.
- */
+
 public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<Band> mBands;
+    private List<Customer> customers;
     private Context mContext;
 
-   public CustomerRecyclerAdapter(List<Band> bandsList, Context context){
-       mBands = bandsList;
+   public CustomerRecyclerAdapter(List<Customer> bandsList, Context context){
+       customers = bandsList;
        mContext = context;
    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_band, parent, false);
-        return new BandHolder(itemView);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_customer, parent, false);
+        return new CustomerHolder(itemView);
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        final Band band = mBands.get(position);
-        BandHolder bandHolder = (BandHolder) holder;
+        final Customer customer = customers.get(position);
+        CustomerHolder customerHolder = (CustomerHolder) holder;
 
-        if(!band.getName().isEmpty()){
-            bandHolder.bandName.setText(band.getName());
+        if(!customer.getCustomerFirstName().isEmpty()){
+            customerHolder.firstName.setText(customer.getCustomerFirstName());
         }
 
-        bandHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        if(!customer.getCustomerLastName().isEmpty()){
+            customerHolder.lastName.setText(customer.getCustomerLastName());
+        }
+
+
+        customerHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, BandDetailActivity.class);
-                intent.putExtra(BandDetailActivity.BUNDLE_BAND, band);
+                Intent intent = new Intent(mContext, TableChoosingActivity.class);
+               // intent.putExtra(BandDetailActivity.BUNDLE_BAND, customer);
                 mContext.startActivity(intent);
             }
         });
@@ -57,16 +60,18 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemCount() {
-        return mBands.size();
+        return customers.size();
     }
 
-    class BandHolder extends RecyclerView.ViewHolder {
+    class CustomerHolder extends RecyclerView.ViewHolder {
 
-        public TextView bandName;
+        public TextView firstName;
+        public TextView lastName;
 
-        public BandHolder(View view) {
+        public CustomerHolder(View view) {
             super(view);
-            bandName = (TextView) view.findViewById(R.id.band_name);
+            firstName = (TextView) view.findViewById(R.id.name);
+            lastName = (TextView) view.findViewById(R.id.lastname);
         }
     }
 }

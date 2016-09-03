@@ -1,7 +1,8 @@
 package com.quandoo.reservations.data.remote;
 
-import com.iwsbrazil.interview.BandsApplication;
-import com.iwsbrazil.interview.R;
+
+import com.quandoo.reservations.R;
+import com.quandoo.reservations.ReservationsApplication;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -13,13 +14,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RestUtil {
 
     private static Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BandsApplication.getContext().getString(R.string.url_bands))
+            .baseUrl(ReservationsApplication.getContext().getString(R.string.rest_url))
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    public static BandsEndPoint getBandsEndPoint(){
+    public static ReservationEndpoint getReservationEndpoint(){
 
-        BandsEndPoint apiService = retrofit.create(BandsEndPoint.class);
+        ReservationEndpoint apiService = retrofit.create(ReservationEndpoint.class);
 
         return apiService;
     }

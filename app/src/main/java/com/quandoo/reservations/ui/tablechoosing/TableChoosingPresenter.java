@@ -3,5 +3,5 @@ package com.quandoo.reservations.ui.tablechoosing;
 /**
  * Created by felipe on 9/3/16.
  */
-public class TableChoosingPresenter {
+public class TableChoosingPresenter implements TableChoosingContract {
 }
