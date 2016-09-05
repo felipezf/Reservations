@@ -1,12 +1,21 @@
 package com.quandoo.reservations.data.entities;
 
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by felipe on 9/2/16.
  */
-public class Customer {
+public class Customer extends RealmObject implements Serializable {
+
+    @PrimaryKey
     private Long id;
+
     private String customerFirstName;
     private String customerLastName;
+    private Integer tableReservationNumber;
 
     public Long getId() {
         return id;
@@ -30,5 +39,13 @@ public class Customer {
 
     public void setCustomerLastName(String customerLastName) {
         this.customerLastName = customerLastName;
+    }
+
+    public Integer getTableReservationNumber() {
+        return tableReservationNumber;
+    }
+
+    public void setTableReservationNumber(Integer tableReservationNumber) {
+        this.tableReservationNumber = tableReservationNumber;
     }
 }

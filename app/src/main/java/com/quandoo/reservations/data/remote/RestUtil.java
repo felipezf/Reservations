@@ -8,9 +8,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-/**
- * Created by felipe on 12/22/15.
- */
 public class RestUtil {
 
     private static Retrofit retrofit = new Retrofit.Builder()

@@ -9,8 +9,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ui.customerlist.CustomerListActivity">
 
+    <ProgressBar
+        android:id="@+id/customer_list_progress"
+        android:layout_centerInParent="true"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/customer_list"
+        android:id="@+id/customer_list_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </RelativeLayout>

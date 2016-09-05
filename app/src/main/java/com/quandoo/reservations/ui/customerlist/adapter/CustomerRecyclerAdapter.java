@@ -1,7 +1,5 @@
 package com.quandoo.reservations.ui.customerlist.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.TextView;
 
 import com.quandoo.reservations.R;
 import com.quandoo.reservations.data.entities.Customer;
-import com.quandoo.reservations.ui.tablechoosing.TableChoosingActivity;
 
 import java.util.List;
 
@@ -18,12 +15,13 @@ import java.util.List;
 public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
-    private List<Customer> customers;
-    private Context mContext;
+    private List<Customer> mCustomers;
+    private ItemClickListener itemClickListener;
 
-   public CustomerRecyclerAdapter(List<Customer> bandsList, Context context){
-       customers = bandsList;
-       mContext = context;
+   public CustomerRecyclerAdapter(ItemClickListener itemClickListener, List<Customer> customerList){
+       mCustomers = customerList;
+       this.itemClickListener = itemClickListener;
+
    }
 
     @Override
@@ -34,9 +32,9 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
-        final Customer customer = customers.get(position);
+        final Customer customer = mCustomers.get(position);
         CustomerHolder customerHolder = (CustomerHolder) holder;
 
         if(!customer.getCustomerFirstName().isEmpty()){
@@ -51,16 +49,23 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         customerHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, TableChoosingActivity.class);
-               // intent.putExtra(BandDetailActivity.BUNDLE_BAND, customer);
-                mContext.startActivity(intent);
+                itemClickListener.onItemClicked(mCustomers.get(position));
             }
         });
+
+//                new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               // Intent intent = new Intent(mContext, TableChoosingActivity.class);
+//               // intent.putExtra(BandDetailActivity.BUNDLE_BAND, customer);
+//               // mContext.startActivity(intent);
+//            }
+//        });
     }
 
     @Override
     public int getItemCount() {
-        return customers.size();
+        return mCustomers.size();
     }
 
     class CustomerHolder extends RecyclerView.ViewHolder {
@@ -73,5 +78,21 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             firstName = (TextView) view.findViewById(R.id.name);
             lastName = (TextView) view.findViewById(R.id.lastname);
         }
+    }
+
+    public void replaceData(List<Customer> tasks) {
+        setList(tasks);
+        notifyDataSetChanged();
+    }
+
+    private void setList(List<Customer> tasks) {
+        if(tasks!=null) {
+            mCustomers.clear();
+            mCustomers.addAll(tasks);
+        }
+    }
+
+    public interface ItemClickListener {
+        void onItemClicked(Customer customer);
     }
 }

@@ -1,7 +1,6 @@
 package com.quandoo.reservations.data.remote;
 
 import com.quandoo.reservations.data.entities.Customer;
-import com.quandoo.reservations.data.entities.TableReservation;
 
 import java.util.List;
 
@@ -17,5 +16,5 @@ public interface ReservationEndpoint {
     Call<List<Customer>> getCustomerList();
 
     @GET("table-map.json")
-    Call<TableReservation> getBands();
+    Call<List<Boolean>> getTableList();
 }

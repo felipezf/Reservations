@@ -4,29 +4,31 @@ import com.quandoo.reservations.data.entities.Customer;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by felipe on 9/3/16.
  */
 public class RestRemoteDataSource implements RestDataSource{
 
+    private static RestRemoteDataSource INSTANCE = null;
+    private RestRemoteDataSource() {}
+
+
+    public static RestRemoteDataSource getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new RestRemoteDataSource();
+        }
+        return INSTANCE;
+    }
 
     @Override
-    public List<Customer> getCustomerList() {
+    public void loadCustomers(Callback<List<Customer>> callback) {
+        RestUtil.getReservationEndpoint().getCustomerList().enqueue(callback);
+    }
 
-        RestUtil.getReservationEndpoint().getCustomerList().enqueue(new Callback<List<Customer>>() {
-            @Override
-            public void onResponse(Call<List<Customer>> call, Response<List<Customer>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Customer>> call, Throwable t) {
-
-            }
-        });
+    @Override
+    public void loadTables(Callback<List<Boolean>> callback) {
+        RestUtil.getReservationEndpoint().getTableList().enqueue(callback);
     }
 }
