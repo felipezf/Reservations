@@ -1,7 +1,6 @@
 package com.quandoo.reservations.ui.customerlist;
 
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.quandoo.reservations.R;
 import com.quandoo.reservations.data.entities.Customer;
-import com.quandoo.reservations.ui.SearchCustomerActivity;
 import com.quandoo.reservations.ui.customerlist.adapter.CustomerRecyclerAdapter;
 import com.quandoo.reservations.ui.tablechoosing.TableChoosingActivity;
 
@@ -115,12 +113,12 @@ public class CustomerListActivity extends AppCompatActivity implements CustomerR
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.customer_menu, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        ComponentName cn = new ComponentName(this, SearchCustomerActivity.class);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setIconifiedByDefault(false);
 

@@ -25,6 +25,8 @@ public class CustomerListPresenter implements CustomerListContract {
     @Override
     public void populateData() {
 
+        customerListView.hideCustomerList();
+
         customerRepository.loadCustomers(new CustomerDataSource.LoadData() {
             @Override
             public void onLoaded(List<Customer> customerList) {
@@ -41,6 +43,8 @@ public class CustomerListPresenter implements CustomerListContract {
 
     @Override
     public void search(String query) {
+
+        customerListView.hideCustomerList();
 
         customerRepository.findCustomers(query, new CustomerDataSource.LoadData() {
             @Override
