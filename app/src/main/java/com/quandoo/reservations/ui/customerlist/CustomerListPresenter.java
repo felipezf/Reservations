@@ -22,6 +22,11 @@ public class CustomerListPresenter implements CustomerListContract {
         this.customerRepository = CustomerRepository.getInstance();
     }
 
+    public CustomerListPresenter(CustomerListView customerListView, CustomerRepository customerRepository) {
+        this.customerListView = customerListView;
+        this.customerRepository = customerRepository;
+    }
+
     @Override
     public void populateData() {
 

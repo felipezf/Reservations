@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.quandoo.reservations.R;
 import com.quandoo.reservations.data.entities.Customer;
-import com.quandoo.reservations.ui.customerlist.adapter.CustomerRecyclerAdapter;
 import com.quandoo.reservations.ui.tablechoosing.TableChoosingActivity;
 
 import java.util.ArrayList;

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.quandoo.reservations.R;
 import com.quandoo.reservations.data.entities.Table;
-import com.quandoo.reservations.ui.tablechoosing.adapter.TableRecyclerAdapter;
 
 import java.util.List;
 

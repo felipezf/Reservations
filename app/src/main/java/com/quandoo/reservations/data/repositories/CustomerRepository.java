@@ -89,7 +89,7 @@ public class CustomerRepository implements CustomerDataSource {
     @Override
     public void loadCustomers(final CustomerDataSource.LoadData callback) {
 
-        if(customerCache==null){
+        if(customerCache==null || customerCache.size()==0){
 
             customerCache = customerLocalDataSource.loadCustomers();
 
