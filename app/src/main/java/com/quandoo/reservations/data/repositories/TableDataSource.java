@@ -1,4 +1,4 @@
-package com.quandoo.reservations.data;
+package com.quandoo.reservations.data.repositories;
 
 import com.quandoo.reservations.data.entities.TableListWrapper;
 
@@ -15,4 +15,5 @@ public interface TableDataSource {
 
     void loadTables(TableDataSource.LoadData callback);
     void updateTable(final int tableReservedPosition, final boolean status);
+    void clearReservations();
 }

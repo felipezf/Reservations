@@ -11,14 +11,23 @@
 
     <ProgressBar
         android:id="@+id/table_choosing_progress"
-        android:layout_centerInParent="true"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/table_choosing_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="@string/no_data" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/table_choosing_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

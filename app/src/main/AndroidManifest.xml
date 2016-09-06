@@ -3,29 +3,58 @@
     package="com.quandoo.reservations">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".ReservationsApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".ReservationsApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.customerlist.CustomerListActivity"
+
+
+        <activity
+            android:name=".ui.customerlist.CustomerListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEARCH" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable_customer" />
+        </activity>
+        <activity
+            android:name=".ui.tablechoosing.TableChoosingActivity"
+            android:parentActivityName=".ui.customerlist.CustomerListActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:screenOrientation="portrait"
+                android:value=".ui.customerlist.CustomerListActivity" />
         </activity>
 
-        <activity android:name=".ui.tablechoosing.TableChoosingActivity"
-                android:parentActivityName=".ui.customerlist.CustomerListActivity">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".ui.customerlist.CustomerListActivity"
-            android:screenOrientation="portrait"/>
+        <service
+            android:name=".android.ClearReservationsService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
+            android:name=".android.AlarmBroadcastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".ui.SearchCustomerActivity"
+            android:screenOrientation="portrait">
+
         </activity>
     </application>
 

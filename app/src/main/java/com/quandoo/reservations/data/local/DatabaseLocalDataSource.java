@@ -17,4 +17,5 @@ public interface DatabaseLocalDataSource {
     void updateTable(Realm.Transaction realmTransaction, Realm.Transaction.OnSuccess onSuccess, Realm.Transaction.OnError onError);
     void saveCustomers(Realm.Transaction realmTransaction);
     void updateCustomer(Realm.Transaction realmTransaction, Realm.Transaction.OnSuccess onSuccess, Realm.Transaction.OnError onError);
+    TableListWrapper clearTablesReservation();
 }

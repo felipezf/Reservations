@@ -37,14 +37,19 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         final Customer customer = mCustomers.get(position);
         CustomerHolder customerHolder = (CustomerHolder) holder;
 
-        if(!customer.getCustomerFirstName().isEmpty()){
-            customerHolder.firstName.setText(customer.getCustomerFirstName());
-        }
 
-        if(!customer.getCustomerLastName().isEmpty()){
-            customerHolder.lastName.setText(customer.getCustomerLastName());
-        }
+        if(customer!=null){
+            String fullName = "";
 
+            if(!customer.getCustomerFirstName().isEmpty()) {
+                fullName += customer.getCustomerFirstName() + " ";
+            }
+
+            if(!customer.getCustomerLastName().isEmpty()) {
+                fullName+= customer.getCustomerLastName();
+            }
+            customerHolder.fullName.setText(fullName);
+        }
 
         customerHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +58,6 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         });
 
-//                new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//               // Intent intent = new Intent(mContext, TableChoosingActivity.class);
-//               // intent.putExtra(BandDetailActivity.BUNDLE_BAND, customer);
-//               // mContext.startActivity(intent);
-//            }
-//        });
     }
 
     @Override
@@ -70,13 +67,12 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     class CustomerHolder extends RecyclerView.ViewHolder {
 
-        public TextView firstName;
-        public TextView lastName;
+        public TextView fullName;
 
         public CustomerHolder(View view) {
             super(view);
-            firstName = (TextView) view.findViewById(R.id.name);
-            lastName = (TextView) view.findViewById(R.id.lastname);
+            fullName = (TextView) view.findViewById(R.id.fullname);
+
         }
     }
 

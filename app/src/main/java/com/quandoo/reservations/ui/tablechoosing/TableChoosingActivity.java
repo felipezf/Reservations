@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.quandoo.reservations.R;
 import com.quandoo.reservations.data.entities.Table;
@@ -22,6 +23,7 @@ public class TableChoosingActivity extends AppCompatActivity implements TableCho
     private TableChoosingContract presenter;
     private ProgressBar progressBar;
     private TableRecyclerAdapter tableRecyclerAdapter;
+    private TextView noDataTxtView;
 
     public static final String BUNDLE_CUSTOMERID = "customerId";
     public static final String BUNDLE_TABLE_RESERVED_NUMBER = "tableReservedNumber";
@@ -34,6 +36,7 @@ public class TableChoosingActivity extends AppCompatActivity implements TableCho
         setContentView(R.layout.activity_table_choosing);
 
         progressBar = (ProgressBar) findViewById(R.id.table_choosing_progress);
+        noDataTxtView = (TextView) findViewById(R.id.table_choosing_nodata);
         recyclerView = (RecyclerView) findViewById(R.id.table_choosing_recyclerview);
         recyclerView.setHasFixedSize(true);
 
@@ -62,6 +65,7 @@ public class TableChoosingActivity extends AppCompatActivity implements TableCho
 
     @Override
     public void showTables(List<Table> tableList) {
+        noDataTxtView.setVisibility(View.GONE);
         tableRecyclerAdapter.replaceData(tableList);
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
@@ -75,5 +79,12 @@ public class TableChoosingActivity extends AppCompatActivity implements TableCho
     @Override
     public void unmarkTableAsReserved(List<Table> tableList) {
         tableRecyclerAdapter.replaceData(tableList);
+    }
+
+    @Override
+    public void showNoDataError() {
+        noDataTxtView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
     }
 }

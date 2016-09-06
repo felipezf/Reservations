@@ -1,4 +1,4 @@
-package com.quandoo.reservations.data;
+package com.quandoo.reservations.data.repositories;
 
 import com.quandoo.reservations.data.entities.Customer;
 
@@ -18,4 +18,5 @@ public interface CustomerDataSource {
     void loadCustomers(CustomerDataSource.LoadData callback);
     void saveCustomers(List<Customer> customerList);
     void updateCustomer(Long customerId, Integer tablePosition);
+    void findCustomers(String query, CustomerDataSource.LoadData callback);
 }

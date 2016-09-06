@@ -1,6 +1,7 @@
 package com.quandoo.reservations.data.local;
 
 import com.quandoo.reservations.data.entities.Customer;
+import com.quandoo.reservations.data.entities.Table;
 import com.quandoo.reservations.data.entities.TableListWrapper;
 
 import io.realm.Realm;
@@ -25,14 +26,16 @@ public class DatabaseDataSource implements DatabaseLocalDataSource {
     @Override
     public RealmResults<Customer> loadCustomers() {
 
-        return Realm.getDefaultInstance().where(Customer.class).findAll();
+       RealmResults<Customer> customers =  Realm.getDefaultInstance().where(Customer.class).findAll();
+        Realm.getDefaultInstance().close();
+
+        return customers;
 
     }
 
     @Override
     public TableListWrapper loadTables() {
         return Realm.getDefaultInstance().where(TableListWrapper.class).findFirstAsync();
-
     }
 
 
@@ -54,5 +57,23 @@ public class DatabaseDataSource implements DatabaseLocalDataSource {
     @Override
     public void updateCustomer(Realm.Transaction realmTransaction, Realm.Transaction.OnSuccess onSuccess, Realm.Transaction.OnError onError) {
         Realm.getDefaultInstance().executeTransactionAsync(realmTransaction,onSuccess,onError);
+    }
+
+    @Override
+    public TableListWrapper clearTablesReservation() {
+
+        TableListWrapper tableListWrapper = Realm.getDefaultInstance().where(TableListWrapper.class).findFirst();
+
+
+        if(tableListWrapper!=null && tableListWrapper.getTableList()!=null) {
+            Realm.getDefaultInstance().beginTransaction();
+            for (Table table : tableListWrapper.getTableList()) {
+                table.setStatus(true);
+            }
+            Realm.getDefaultInstance().commitTransaction();
+            Realm.getDefaultInstance().close();
+        }
+
+        return tableListWrapper;
     }
 }

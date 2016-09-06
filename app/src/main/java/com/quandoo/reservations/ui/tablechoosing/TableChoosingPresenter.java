@@ -2,11 +2,11 @@ package com.quandoo.reservations.ui.tablechoosing;
 
 import android.util.Log;
 
-import com.quandoo.reservations.data.CustomerRepository;
-import com.quandoo.reservations.data.TableDataSource;
-import com.quandoo.reservations.data.TableRepository;
 import com.quandoo.reservations.data.entities.Table;
 import com.quandoo.reservations.data.entities.TableListWrapper;
+import com.quandoo.reservations.data.repositories.CustomerRepository;
+import com.quandoo.reservations.data.repositories.TableDataSource;
+import com.quandoo.reservations.data.repositories.TableRepository;
 
 import java.util.List;
 
@@ -52,6 +52,7 @@ public class TableChoosingPresenter implements TableChoosingContract {
 
             @Override
             public void onNotAvailable() {
+                tableChoosingView.showNoDataError();
                 Log.e("TableChoosingPresenter","Data not avaliable");
             }
         });

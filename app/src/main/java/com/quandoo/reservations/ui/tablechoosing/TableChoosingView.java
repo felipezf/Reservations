@@ -11,4 +11,5 @@ public interface TableChoosingView {
     void showTables(List<Table> tablesReservation);
     void markTableAsReserved(List<Table> tableList);
     void unmarkTableAsReserved(List<Table> tableList);
+    void showNoDataError();
 }

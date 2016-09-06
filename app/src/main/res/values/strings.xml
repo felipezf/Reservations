@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Reservations</string>
     <string name="rest_url">https://s3-eu-west-1.amazonaws.com/quandoo-assessment/</string>
+    <string name="no_data">No data avaliable. Try again, later.</string>
+    <string name="search_hint">Search customer</string>
+    <string name="search_name">Search</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.quandoo.reservations.data;
+package com.quandoo.reservations.data.repositories;
 
 import android.util.Log;
 
@@ -28,10 +28,13 @@ import retrofit2.Response;
     private DatabaseLocalDataSource tableLocalDataSource;
     private TableListWrapper tablesReservationCache;
 
+    private final Realm realm;
+
 
     private TableRepository() {
         tableRemoteDataSource = RestRemoteDataSource.getInstance();
         tableLocalDataSource = DatabaseDataSource.getInstance();
+        realm = Realm.getDefaultInstance();
     }
 
     public static TableRepository getInstance() {
@@ -51,6 +54,7 @@ import retrofit2.Response;
         if(tablesReservationCache==null){
 
             TableListWrapper tableListWrapper = tableLocalDataSource.loadTables();
+
 
             if(tableListWrapper ==null || !(tableListWrapper.isValid() && tableListWrapper.isLoaded())){
                 loadFromNetwork(callback);
@@ -80,14 +84,27 @@ import retrofit2.Response;
             public void onSuccess() {
 
                 tablesReservationCache.getTableList().get(tableReservedPosition).setStatus(status);
+                Realm.getDefaultInstance().close();
 
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
                 Log.e("TableRespository",error.getMessage());
+                Realm.getDefaultInstance().close();
             }
         });
+
+    }
+
+    @Override
+    public void clearReservations() {
+
+        TableListWrapper tableListWrapper = tableLocalDataSource.clearTablesReservation();
+
+        if(tableListWrapper!=null && tableListWrapper.isValid() && tableListWrapper.isLoaded()){
+            tablesReservationCache = Realm.getDefaultInstance().copyFromRealm(tableListWrapper);
+        }
 
     }
 
@@ -102,6 +119,9 @@ import retrofit2.Response;
                     saveTables(tableListWrapper);
                     tablesReservationCache = tableListWrapper;
                     callback.onLoaded(tableListWrapper);
+                }
+                else{
+                    callback.onNotAvailable();
                 }
             }
 
@@ -132,5 +152,4 @@ import retrofit2.Response;
             }
         });
     }
-
 }

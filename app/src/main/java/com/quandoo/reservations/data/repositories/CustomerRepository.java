@@ -1,4 +1,4 @@
-package com.quandoo.reservations.data;
+package com.quandoo.reservations.data.repositories;
 
 import android.util.Log;
 
@@ -8,6 +8,7 @@ import com.quandoo.reservations.data.local.DatabaseLocalDataSource;
 import com.quandoo.reservations.data.remote.RestDataSource;
 import com.quandoo.reservations.data.remote.RestRemoteDataSource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
@@ -21,6 +22,8 @@ import retrofit2.Response;
 public class CustomerRepository implements CustomerDataSource {
 
     private static CustomerRepository INSTANCE = null;
+
+    private final Realm realm = Realm.getDefaultInstance();
 
     private RestDataSource customerRemoteDataSource;
     private DatabaseLocalDataSource customerLocalDataSource;
@@ -44,13 +47,53 @@ public class CustomerRepository implements CustomerDataSource {
     }
 
     @Override
+    public void findCustomers(final String query, final CustomerDataSource.LoadData callback) {
+
+        if(customerCache!=null && customerCache.size()>0){
+
+            queryCustomerFields(query, callback);
+        }
+        else{
+            loadCustomers(new LoadData() {
+                @Override
+                public void onLoaded(List<Customer> customerList) {
+                    if(customerCache!=null && customerCache.size()>0) {
+
+                        queryCustomerFields(query, callback);
+                    }
+                    else{
+                        callback.onNotAvailable();
+                    }
+                }
+
+                @Override
+                public void onNotAvailable() {
+                    callback.onNotAvailable();
+                }
+            });
+        }
+    }
+
+    private void queryCustomerFields(String query, LoadData callback) {
+
+        List<Customer> result = new ArrayList<>();
+
+        for(Customer customer : customerCache){
+            if(customer.getCustomerFirstName().toLowerCase().contains(query.toLowerCase()) || customer.getCustomerLastName().toLowerCase().contains(query.toLowerCase())){
+                result.add(customer);
+            }
+        }
+        callback.onLoaded(result);
+    }
+
+    @Override
     public void loadCustomers(final CustomerDataSource.LoadData callback) {
 
         if(customerCache==null){
 
             customerCache = customerLocalDataSource.loadCustomers();
 
-            if(customerCache==null || customerCache.size( )==0){
+            if(customerCache==null || customerCache.size()==0){
                 loadFromNetwork(callback);
             }
             else{
@@ -68,9 +111,9 @@ public class CustomerRepository implements CustomerDataSource {
         customerLocalDataSource.saveCustomers(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
-                Realm.getDefaultInstance().delete(Customer.class);
-                Realm.getDefaultInstance().copyToRealmOrUpdate(customerList);
+                realm.delete(Customer.class);
+                realm.copyToRealmOrUpdate(customerList);
+                realm.close();
             }
         });
     }
@@ -90,10 +133,12 @@ public class CustomerRepository implements CustomerDataSource {
             public void onSuccess() {
 
                 customerCache = customerLocalDataSource.loadCustomers();
+                realm.close();
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
+                realm.close();
                 Log.e("CustomerRepository",error.getMessage());
             }
         });
@@ -108,6 +153,9 @@ public class CustomerRepository implements CustomerDataSource {
                     customerCache = response.body();
                     saveCustomers(customerCache);
                     callback.onLoaded(customerCache);
+                }
+                else{
+                    callback.onNotAvailable();
                 }
             }
 

@@ -11,5 +11,6 @@ public interface CustomerListView {
 
     void hideCustomerList();
     void showCustomerList(List<Customer> customerList);
+    void showNoDataError();
 
 }
